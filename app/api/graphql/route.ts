@@ -1,9 +1,12 @@
 import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
-import { MongoDataSource } from "apollo-datasource-mongodb"
 import mongoose, { InferSchemaType, model, models, Schema } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest } from "next/server"
+
+const modelNames = {
+    listings: 'listings'
+}
 
 const userSchema = new Schema({
     first_name: { type: String, required: [true, "All fields are required"] },
@@ -22,26 +25,7 @@ const userSchema = new Schema({
     active: Boolean,
 })
 
-const UserModel = models.UserModel || model("UserModel", userSchema)
-class Users extends MongoDataSource<InferSchemaType<typeof userSchema>> {
-    // Function to fetch all users
-    async getAllUsers() {
-        try {
-            return await UserModel.find()
-        } catch (error) {
-            throw new Error("Failed to fetch users")
-        }
-    }
-
-    // Function to create a new user
-    async createUser({ input }: any) {
-        try {
-            return await UserModel.create({ ...input })
-        } catch (error) {
-            throw new Error("Failed to create user")
-        }
-    }
-}
+const userModel = models[modelNames.listings] || model(modelNames.listings, userSchema)
 const typeDefs = `#graphql
   type User {
     id: ID!
@@ -124,7 +108,7 @@ const handler = startServerAndCreateNextHandler(
                 users: {
                     async getAllUsers() {
                         try {
-                            return await UserModel.find()
+                            return await userModel.find()
                         } catch (error) {
                             throw new Error("Failed to fetch users")
                         }
@@ -133,7 +117,7 @@ const handler = startServerAndCreateNextHandler(
                     // Function to create a new user
                     async createUser({ input }: any) {
                         try {
-                            return await UserModel.create({ ...input })
+                            return await userModel.create({ ...input })
                         } catch (error) {
                             throw new Error("Failed to create user")
                         }
