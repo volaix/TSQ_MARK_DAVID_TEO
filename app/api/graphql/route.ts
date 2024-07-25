@@ -111,7 +111,6 @@ const resolvers = {
     },
 }
 
-
 const handler = startServerAndCreateNextHandler(
     new ApolloServer({
         resolvers,

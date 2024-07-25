@@ -2,10 +2,21 @@
 import Image from "next/image"
 
 import { useQuery, gql, useMutation } from "@apollo/client"
-import { FETCH_POSTS } from "./constants"
 
 export default function Home() {
-  const { loading, error, data, refetch } = useQuery(FETCH_POSTS)
+  const { loading, error, data, refetch } = useQuery(gql`
+  query getUsers {
+    users {
+      id
+      age
+      email
+      first_name
+      last_name
+      active
+    }
+  }
+`)
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
@@ -25,12 +36,12 @@ export default function Home() {
         )}
       </div>
       {/* <div className="h-4/5 w-1/3 px-2 py-5 justify-center flex border border-orange-400 rounded"> */}
-        {/* <UserForm refetch={refetch} /> */}
+      {/* <UserForm refetch={refetch} /> */}
       {/* </div> */}
 
 
 
-      
+
     </main>
   )
 }

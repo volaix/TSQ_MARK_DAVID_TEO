@@ -1,17 +1,6 @@
 import { gql } from "@apollo/client"
 
-export const FETCH_POSTS = gql`
-  query getUsers {
-    users {
-      id
-      age
-      email
-      first_name
-      last_name
-      active
-    }
-  }
-`
+// export const FETCH_POSTS = 
 
 export const CREATE_POST = gql`
   mutation createUser($input: NewUserInput!) {
