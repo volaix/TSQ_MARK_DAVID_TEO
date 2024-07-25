@@ -11,23 +11,3 @@ interface UserDocument {
     email: string
     interests: [string]
 }
-
-export default class Users extends MongoDataSource<InferSchemaType<typeof userSchema>> {
-    // Function to fetch all users
-    async getAllUsers() {
-        try {
-            return await UserModel.find()
-        } catch (error) {
-            throw new Error("Failed to fetch users")
-        }
-    }
-
-    // Function to create a new user
-    async createUser({ input }: any) {
-        try {
-            return await UserModel.create({ ...input })
-        } catch (error) {
-            throw new Error("Failed to create user")
-        }
-    }
-}
