@@ -5,7 +5,7 @@ import mongoose, { InferSchemaType, model, models, Schema } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest } from "next/server"
 
-export const userSchema = new Schema({
+const userSchema = new Schema({
     first_name: { type: String, required: [true, "All fields are required"] },
     last_name: {
         type: String,
@@ -20,7 +20,7 @@ export const userSchema = new Schema({
         required: [true, "All fields are required"],
     },
     active: Boolean,
-}) 
+})
 
 const UserModel = models.UserModel || model("UserModel", userSchema)
 class Users extends MongoDataSource<InferSchemaType<typeof userSchema>> {
@@ -72,6 +72,21 @@ type Context = {
     }
 }
 
+
+const uri = process.env.MONGODB_URI
+
+const connectDB = async () => {
+    try {
+        if (uri) {
+            await mongoose.connect(uri)
+            console.log("🎉 connected to database successfully")
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
+connectDB()
+
 const resolvers = {
     Query: {
         users: async (_: any, __: any, context: Context) => {
@@ -96,19 +111,6 @@ const resolvers = {
     },
 }
 
-const uri = process.env.MONGODB_URI
-
-const connectDB = async () => {
-    try {
-        if (uri) {
-            await mongoose.connect(uri)
-            console.log("🎉 connected to database successfully")
-        }
-    } catch (error) {
-        console.error(error)
-    }
-}
-connectDB()
 
 const handler = startServerAndCreateNextHandler(
     new ApolloServer({
@@ -120,24 +122,25 @@ const handler = startServerAndCreateNextHandler(
             req,
             res,
             dataSources: {
-                users: new Users({
-                    modelOrCollection: new Schema({
-                        first_name: { type: String, required: [true, "All fields are required"] },
-                        last_name: {
-                            type: String,
-                            required: [true, "All fields are required"],
-                        },
-                        email: {
-                            type: String,
-                            required: [true, "All fields are required"],
-                        },
-                        age: {
-                            type: String,
-                            required: [true, "All fields are required"],
-                        },
-                        active: Boolean,
-                    })
-                }),
+                users: {
+                    async getAllUsers() {
+                        try {
+                            return await UserModel.find()
+                        } catch (error) {
+                            throw new Error("Failed to fetch users")
+                        }
+                    },
+
+                    // Function to create a new user
+                    async createUser({ input }: any) {
+                        try {
+                            return await UserModel.create({ ...input })
+                        } catch (error) {
+                            throw new Error("Failed to create user")
+                        }
+                    },
+                    modelOrCollection: userSchema
+                }
             },
         }),
     }
