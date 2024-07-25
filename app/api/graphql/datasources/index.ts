@@ -1,5 +1,5 @@
 // MongoDB Data Source for Users
-import UserModel from "./models"
+import UserModel from "../models"
 import { MongoDataSource } from "apollo-datasource-mongodb"
 import { ObjectId } from "mongodb"
 
