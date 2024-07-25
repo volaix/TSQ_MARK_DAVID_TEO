@@ -57,9 +57,8 @@ type Context = {
 }
 
 
-const uri = process.env.MONGODB_URI
-
 const connectDB = async () => {
+    const uri = process.env.MONGODB_URI
     try {
         if (uri) {
             await mongoose.connect(uri)
