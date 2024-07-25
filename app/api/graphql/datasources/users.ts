@@ -1,7 +1,8 @@
 // MongoDB Data Source for Users
-import UserModel from "../models"
+import UserModel, { userSchema } from "../models"
 import { MongoDataSource } from "apollo-datasource-mongodb"
 import { ObjectId } from "mongodb"
+import { InferSchemaType } from "mongoose"
 
 interface UserDocument {
     _id: ObjectId
@@ -11,7 +12,7 @@ interface UserDocument {
     interests: [string]
 }
 
-export default class Users extends MongoDataSource<UserDocument> {
+export default class Users extends MongoDataSource<InferSchemaType<typeof userSchema>> {
     // Function to fetch all users
     async getAllUsers() {
         try {

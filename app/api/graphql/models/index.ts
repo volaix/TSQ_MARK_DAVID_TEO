@@ -1,9 +1,6 @@
-// User Model Creation
-const mongoose = require("mongoose")
-const { Schema } = mongoose
+import { Schema, model, models } from 'mongoose'
 
-const userSchema = new Schema({
-    // Define user fields here matching the GraphQL schema
+export const userSchema = new Schema({
     first_name: { type: String, required: [true, "All fields are required"] },
     last_name: {
         type: String,
@@ -30,4 +27,4 @@ const postSchema = new Schema({
     },
 })
 
-export default mongoose.models.UserModel || mongoose.model("UserModel", userSchema)
+export default models.UserModel || model("UserModel", userSchema)

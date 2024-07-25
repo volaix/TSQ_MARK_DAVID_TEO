@@ -2,10 +2,10 @@
 import Image from "next/image"
 
 import { useQuery, gql, useMutation } from "@apollo/client"
-import { FETCH_USERS } from "./constants"
+import { FETCH_POSTS } from "./constants"
 
 export default function Home() {
-  const { loading, error, data, refetch } = useQuery(FETCH_USERS)
+  const { loading, error, data, refetch } = useQuery(FETCH_POSTS)
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
