@@ -1,5 +1,5 @@
 
-import { Resolvers } from '@/__generated__/resolversTypes'
+import { NewClientPost, Resolvers } from '@/__generated__/resolversTypes'
 import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import { InferSchemaType, model, models, Schema } from "mongoose"
@@ -42,11 +42,10 @@ export interface Context {
         clientPosts: {
             getAllPosts: () => any
             createPost: ({ input }: any) => any
-            // updatePost: (post: Post) => Promise<Post>
+            updatePost: (post: Post) => Promise<any[]>
         }
     }
 }
-
 //=============APOLLO============
 const resolvers: Resolvers = {
     Query: {
@@ -59,6 +58,16 @@ const resolvers: Resolvers = {
         },
     },
     Mutation: {
+        // updateClientPost: async (_: unknown, { input }: { input: NewClientPost }, context: Context) => {
+        //     try {
+        //         const updatedPost = await context.dataSources.clientPosts.({
+        //             input,
+        //         })
+        //         return updatedPost
+        //     } catch (error) {
+        //         throw new Error("Failed to update posts")
+        //     }
+        // },
         createClientPost: async (_: any, { input }: any, context: Context) => {
             try {
                 const newPost = await context.dataSources.clientPosts.createPost({
@@ -98,7 +107,7 @@ const handler = startServerAndCreateNextHandler(
                         console.log('running updatePost inside handler')
                         try {
                             const updatedPost = await clientModel.find(post)
-                            console.log('updatedPost: ', updatedPost);
+                            console.log('updatedPost: ', updatedPost)
                             return updatedPost
                         } catch (error) {
                             throw new Error("Failed to update posts")

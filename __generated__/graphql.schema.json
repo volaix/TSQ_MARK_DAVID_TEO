@@ -137,7 +137,7 @@
             "deprecationReason": null
           },
           {
-            "name": "updateClientPosts",
+            "name": "updateClientPost",
             "description": null,
             "args": [
               {
@@ -147,17 +147,9 @@
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "NON_NULL",
-                      "name": null,
-                      "ofType": {
-                        "kind": "INPUT_OBJECT",
-                        "name": "NewClientPost",
-                        "ofType": null
-                      }
-                    }
+                    "kind": "INPUT_OBJECT",
+                    "name": "NewClientPost",
+                    "ofType": null
                   }
                 },
                 "defaultValue": null,
@@ -166,13 +158,9 @@
               }
             ],
             "type": {
-              "kind": "LIST",
-              "name": null,
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "ClientPost",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "ClientPost",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null

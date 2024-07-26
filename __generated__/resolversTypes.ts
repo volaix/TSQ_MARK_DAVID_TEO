@@ -28,7 +28,7 @@ export type ClientPost = {
 export type Mutation = {
   __typename?: 'Mutation';
   createClientPost?: Maybe<ClientPost>;
-  updateClientPosts?: Maybe<Array<Maybe<ClientPost>>>;
+  updateClientPost?: Maybe<ClientPost>;
 };
 
 
@@ -37,8 +37,8 @@ export type MutationCreateClientPostArgs = {
 };
 
 
-export type MutationUpdateClientPostsArgs = {
-  input: Array<NewClientPost>;
+export type MutationUpdateClientPostArgs = {
+  input: NewClientPost;
 };
 
 export type NewClientPost = {
@@ -207,7 +207,7 @@ export type ClientPostResolvers<ContextType = Context, ParentType extends Resolv
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationCreateClientPostArgs, 'input'>>;
-  updateClientPosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['ClientPost']>>>, ParentType, ContextType, RequireFields<MutationUpdateClientPostsArgs, 'input'>>;
+  updateClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationUpdateClientPostArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

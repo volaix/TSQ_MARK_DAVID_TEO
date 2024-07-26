@@ -11,7 +11,6 @@ interface PostListProps {
   };
 }
 
-
 const orderMin = 10000
 const PostList: React.FC<PostListProps> = ({ data }) => {
   //-----------STATE-------------

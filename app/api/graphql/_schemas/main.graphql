@@ -14,5 +14,5 @@ type Query {
 }
 type Mutation {
   createClientPost(input: NewClientPost!): ClientPost
-  updateClientPosts(input: [NewClientPost!]!): [ClientPost]
+  updateClientPost(input: NewClientPost!): ClientPost
 }
