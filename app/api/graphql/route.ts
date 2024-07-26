@@ -1,17 +1,12 @@
-
-import { ApolloServer } from "@apollo/server"
-import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import mongoose from "mongoose"
-import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest } from "next/server"
-import Users from "./datasource"
-import UserModel from "./models"
-import resolvers from "./resolvers"
-import typeDefs from "./schema"
+import apolloHandler from "./apolloHandler"
 
-const uri = process.env.MONGODB_URI
-
+/**
+ * Connect to MongoDB with mongoose
+ */
 const connectDB = async () => {
+    const uri = process.env.MONGODB_URI
     try {
         if (uri) {
             await mongoose.connect(uri)
@@ -23,27 +18,11 @@ const connectDB = async () => {
 }
 connectDB()
 
-const server = new ApolloServer({
-    resolvers,
-    typeDefs,
-
-})
-
-
-
-const handler = startServerAndCreateNextHandler(server, {
-    context: async (req: NextApiRequest, res: NextApiResponse) => ({
-        req,
-        res,
-        dataSources: {
-            users: new Users({ modelOrCollection: UserModel }),
-        },
-    }),
-})
+//----------ROUTE HANDLERS-----------
 
 export async function GET(request: NextRequest) {
-    return handler(request)
+    return apolloHandler(request)
 }
 export async function POST(request: NextRequest) {
-    return handler(request)
+    return apolloHandler(request)
 }
