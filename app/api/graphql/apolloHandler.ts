@@ -1,11 +1,10 @@
 
+import { Resolvers } from '@/__generated__/resolversTypes'
 import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
-import mongoose, { InferSchemaType, model, models, Schema } from "mongoose"
+import { InferSchemaType, model, models, Schema } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
-import { NextRequest } from "next/server"
 import mainGraphQl from './_schemas/main.graphql'
-import { Resolvers } from '@/__generated__/resolversTypes'
 
 
 /**
