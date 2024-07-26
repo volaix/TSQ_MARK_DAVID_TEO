@@ -24,13 +24,14 @@ type ClientPost {
   order: Int!
 }
 
-input NewUserInput {
+input NewClientPost {
   title: String!
   order: Int!
 }
+
 type Query {
   clientPosts: [ClientPost]
 }
 type Mutation {
-  createUser(input: NewUserInput!): ClientPost
+  createUser(input: NewClientPost!): ClientPost
 }
