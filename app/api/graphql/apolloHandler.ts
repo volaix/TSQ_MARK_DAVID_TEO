@@ -4,6 +4,8 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import mongoose, { InferSchemaType, model, models, Schema } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest } from "next/server"
+import mainGraphQl from './_schemas/main.graphql'
+
 
 /**
  * List of all models used
@@ -24,29 +26,6 @@ const clientPostSchema = new Schema({
 })
 
 const userModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
-
-/**
- * Type Definitions for apollo
- * TODO: Automate and link to ts definitions
- */
-const typeDefs = `#graphql
-  type ClientPost {
-    id: ID!
-    title: String!
-    order: Int!
-}
-  
-  input NewUserInput {
-    title: String!
-    order: Int!
-  }
-  type Query {
-    clientPosts: [ClientPost]
-  }
-  type Mutation {
-    createUser(input: NewUserInput!): ClientPost
-  }
-`
 
 type Context = {
     dataSources: {
@@ -80,7 +59,7 @@ const handler = startServerAndCreateNextHandler(
             },
 
         },
-        typeDefs, //can these be autogen?
+        typeDefs: mainGraphQl, //can these be autogen?
     }),
     {
         context: async (req: NextApiRequest, res: NextApiResponse) => ({

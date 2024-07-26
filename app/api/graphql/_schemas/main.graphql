@@ -1,0 +1,36 @@
+# type Query {
+#   books: [Book]
+# }
+
+# type Book {
+#   title: String
+#   author: String
+# }
+
+# type AddBookMutationResponse {
+#   code: String!
+#   success: Boolean!
+#   message: String!
+#   book: Book
+# }
+
+# type Mutation {
+#   addBook(title: String, author: String): AddBookMutationResponse
+# }
+
+type ClientPost {
+  id: ID!
+  title: String!
+  order: Int!
+}
+
+input NewUserInput {
+  title: String!
+  order: Int!
+}
+type Query {
+  clientPosts: [ClientPost]
+}
+type Mutation {
+  createUser(input: NewUserInput!): ClientPost
+}
