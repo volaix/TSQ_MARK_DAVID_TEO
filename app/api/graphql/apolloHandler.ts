@@ -5,6 +5,7 @@ import mongoose, { InferSchemaType, model, models, Schema } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
 import { NextRequest } from "next/server"
 import mainGraphQl from './_schemas/main.graphql'
+import { Resolvers } from '@/__generated__/resolversTypes'
 
 
 /**
@@ -27,17 +28,15 @@ const clientPostSchema = new Schema({
 
 const userModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
-type Context = {
+export interface MyContext  {
     dataSources: {
         clientPosts: { getAllUsers: () => any }
     }
 }
 
-const handler = startServerAndCreateNextHandler(
-    new ApolloServer({
-        resolvers: {
+const resolvers: Resolvers = {
             Query: {
-                clientPosts: async (_: any, __: any, context: Context) => {
+                clientPosts: async (_: any, __: any, context: MyContext) => {
                     try {
                         return await context.dataSources.clientPosts.getAllUsers()
                     } catch (error) {
@@ -58,8 +57,12 @@ const handler = startServerAndCreateNextHandler(
                 },
             },
 
-        },
-        typeDefs: mainGraphQl, //can these be autogen?
+        }
+
+const handler = startServerAndCreateNextHandler(
+    new ApolloServer({
+        resolvers,
+        typeDefs: mainGraphQl, 
     }),
     {
         context: async (req: NextApiRequest, res: NextApiResponse) => ({
