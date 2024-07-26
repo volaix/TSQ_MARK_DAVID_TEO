@@ -27,9 +27,10 @@ const userModel = models[modelNames.clientPost] || model(modelNames.clientPost, 
 
 /**
  * Type Definitions for apollo
+ * TODO: Automate and link to ts definitions
  */
 const typeDefs = `#graphql
-  type User {
+  type ClientPost {
     id: ID!
     title: String!
     order: Int!
@@ -40,16 +41,16 @@ const typeDefs = `#graphql
     order: Int!
   }
   type Query {
-    users: [User]
+    clientPosts: [ClientPost]
   }
   type Mutation {
-    createUser(input: NewUserInput!): User
+    createUser(input: NewUserInput!): ClientPost
   }
 `
 
 type Context = {
     dataSources: {
-        users: { getAllUsers: () => any }
+        clientPosts: { getAllUsers: () => any }
     }
 }
 
@@ -57,18 +58,18 @@ const handler = startServerAndCreateNextHandler(
     new ApolloServer({
         resolvers: {
             Query: {
-                users: async (_: any, __: any, context: Context) => {
+                clientPosts: async (_: any, __: any, context: Context) => {
                     try {
-                        return await context.dataSources.users.getAllUsers()
+                        return await context.dataSources.clientPosts.getAllUsers()
                     } catch (error) {
-                        throw new Error("Failed to fetch users")
+                        throw new Error("Failed to fetch clientPosts")
                     }
                 },
             },
             Mutation: {
                 createUser: async (_: any, { input }: any, context: any) => {
                     try {
-                        const newUser = await context.dataSources.users.createUser({
+                        const newUser = await context.dataSources.clientPosts.createUser({
                             input,
                         })
                         return newUser
@@ -86,12 +87,12 @@ const handler = startServerAndCreateNextHandler(
             req,
             res,
             dataSources: {
-                users: {
+                clientPosts: {
                     async getAllUsers() {
                         try {
                             return await userModel.find()
                         } catch (error) {
-                            throw new Error("Failed to fetch users")
+                            throw new Error("Failed to fetch clientPosts")
                         }
                     },
 

@@ -1,6 +1,6 @@
 'use client'
-import React, { useState, useEffect } from 'react'
-import { DndProvider, useDrag, useDrop } from 'react-dnd'
+import React, { useEffect, useState } from 'react'
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import DraggablePost from './DraggablePost'
 
@@ -11,18 +11,18 @@ export interface Post {
 
 interface PostListProps {
     data: {
-        users?: Post[]
+        clientPosts?: Post[]
     }
 }
 
 const PostList: React.FC<PostListProps> = ({ data }) => {
     //-----------STATE-------------
-    const [posts, setPosts] = useState<Post[]>(data?.users || [])
+    const [posts, setPosts] = useState<Post[]>(data?.clientPosts || [])
 
     //-----------HOOKS-------------
     useEffect(() => {
-        setPosts(data?.users || [])
-    }, [data?.users])
+        setPosts(data?.clientPosts || [])
+    }, [data?.clientPosts])
 
     const movePost = React.useCallback((dragIndex: number, hoverIndex: number) => {
         console.log('update post order here')
