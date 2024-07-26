@@ -108,7 +108,7 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "createUser",
+            "name": "createClientPost",
             "description": null,
             "args": [
               {

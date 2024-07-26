@@ -26,43 +26,48 @@ const clientPostSchema = new Schema({
     },
 })
 
-const userModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
+const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
-export interface MyContext  {
+type ClientPost = InferSchemaType<typeof clientPostSchema>
+
+export interface MyContext {
     dataSources: {
-        clientPosts: { getAllUsers: () => any }
+        clientPosts: {
+            getAllPosts: () => any
+            createPost: ({ input }: any) => any
+        }
     }
 }
 
 const resolvers: Resolvers = {
-            Query: {
-                clientPosts: async (_: any, __: any, context: MyContext) => {
-                    try {
-                        return await context.dataSources.clientPosts.getAllUsers()
-                    } catch (error) {
-                        throw new Error("Failed to fetch clientPosts")
-                    }
-                },
-            },
-            Mutation: {
-                createUser: async (_: any, { input }: any, context: any) => {
-                    try {
-                        const newUser = await context.dataSources.clientPosts.createUser({
-                            input,
-                        })
-                        return newUser
-                    } catch (error) {
-                        throw new Error("Failed to create user")
-                    }
-                },
-            },
+    Query: {
+        clientPosts: async (_: any, __: any, context: MyContext) => {
+            try {
+                return await context.dataSources.clientPosts.getAllPosts()
+            } catch (error) {
+                throw new Error("Failed to fetch clientPosts")
+            }
+        },
+    },
+    Mutation: {
+        createClientPost: async (_: any, { input }: any, context: any) => {
+            try {
+                const newUser = await context.dataSources.clientPosts.createUser({
+                    input,
+                })
+                return newUser
+            } catch (error) {
+                throw new Error("Failed to create user")
+            }
+        },
+    },
 
-        }
+}
 
 const handler = startServerAndCreateNextHandler(
     new ApolloServer({
         resolvers,
-        typeDefs: mainGraphQl, 
+        typeDefs: mainGraphQl,
     }),
     {
         context: async (req: NextApiRequest, res: NextApiResponse) => ({
@@ -70,18 +75,17 @@ const handler = startServerAndCreateNextHandler(
             res,
             dataSources: {
                 clientPosts: {
-                    async getAllUsers() {
+                    async getAllPosts() {
                         try {
-                            return await userModel.find()
+                            return await clientModel.find()
                         } catch (error) {
                             throw new Error("Failed to fetch clientPosts")
                         }
                     },
 
-                    // Function to create a new user
-                    async createUser({ input }: any) {
+                    async createPost({ input }: any) {
                         try {
-                            return await userModel.create({ ...input })
+                            return await clientModel.create({ ...input })
                         } catch (error) {
                             throw new Error("Failed to create user")
                         }

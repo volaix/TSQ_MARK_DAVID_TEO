@@ -27,11 +27,11 @@ export type ClientPost = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser?: Maybe<ClientPost>;
+  createClientPost?: Maybe<ClientPost>;
 };
 
 
-export type MutationCreateUserArgs = {
+export type MutationCreateClientPostArgs = {
   input: NewClientPost;
 };
 
@@ -200,7 +200,7 @@ export type ClientPostResolvers<ContextType = MyContext, ParentType extends Reso
 };
 
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createUser?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  createClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationCreateClientPostArgs, 'input'>>;
 };
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
