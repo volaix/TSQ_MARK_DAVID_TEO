@@ -8,11 +8,8 @@ export default function Home() {
   query getUsers {
     users {
       id
-      age
-      email
-      first_name
-      last_name
-      active
+      title
+      order
     }
   }
 `)
@@ -27,7 +24,7 @@ export default function Home() {
         <h1>list of all posts</h1>
         {data?.users?.map((user: Record<string, string | null | number>) => {
           return (
-            <div key={user?.id}>{user.id}</div>
+            <div key={user?.id}>{user.title}</div>
           )
         }
           // <Fragment key={user?.id}>
