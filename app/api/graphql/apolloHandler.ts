@@ -27,8 +27,6 @@ const clientPostSchema = new Schema({
 
 const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
-type ClientPost = InferSchemaType<typeof clientPostSchema>
-
 export interface MyContext {
     dataSources: {
         clientPosts: {
