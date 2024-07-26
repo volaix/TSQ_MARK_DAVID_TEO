@@ -38,7 +38,8 @@ export type MutationCreateClientPostArgs = {
 
 
 export type MutationUpdateClientPostArgs = {
-  input: NewClientPost;
+  id: Scalars['ID']['input'];
+  order: Scalars['Int']['input'];
 };
 
 export type NewClientPost = {
@@ -207,7 +208,7 @@ export type ClientPostResolvers<ContextType = Context, ParentType extends Resolv
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationCreateClientPostArgs, 'input'>>;
-  updateClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationUpdateClientPostArgs, 'input'>>;
+  updateClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationUpdateClientPostArgs, 'id' | 'order'>>;
 };
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

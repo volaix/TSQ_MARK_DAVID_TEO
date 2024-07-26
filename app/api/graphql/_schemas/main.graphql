@@ -12,7 +12,8 @@ input NewClientPost {
 type Query {
   clientPosts: [ClientPost]
 }
+
 type Mutation {
   createClientPost(input: NewClientPost!): ClientPost
-  updateClientPost(input: NewClientPost!): ClientPost
+  updateClientPost(id: ID!, order: Int!): ClientPost
 }
