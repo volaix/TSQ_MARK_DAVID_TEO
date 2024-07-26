@@ -7,6 +7,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import mainGraphQl from './_schemas/main.graphql'
 
 
+//-------------CONSTS-------------
 /**
  * List of all models used
  */
@@ -14,31 +15,39 @@ const modelNames = {
     clientPost: 'clientpost'
 }
 
-/**
- * Make new clientPost schema
- */
+//------------MONGO SCHEMAS-------------
 const clientPostSchema = new Schema({
     _id: { type: Schema.Types.ObjectId, auto: true },
     title: { type: String, required: [true, "All fields are required"] },
     order: {
         type: Number,
         required: [true, "All fields are required"],
-    },
+        min: [10000, "Order must be at least 10000"],
+        max: [100000, "Order must be at most 100000"],
+    }
 })
 
-const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
-type Post = InferSchemaType<typeof clientPostSchema>
+//------------TYPES--------------
+/**
+ * Post type that you get back from MongoDb. _id becomes available as id. And __typename is appended.
+ */
+export type Post = Omit<InferSchemaType<typeof clientPostSchema>, '_id'> & {
+    id: string
+    __typename: typeof modelNames.clientPost
+}
 
 export interface Context {
     dataSources: {
         clientPosts: {
             getAllPosts: () => any
             createPost: ({ input }: any) => any
+            // updatePost: (post: Post) => Promise<Post>
         }
     }
 }
 
+//=============APOLLO============
 const resolvers: Resolvers = {
     Query: {
         clientPosts: async (_: any, __: any, context: Context) => {
@@ -64,6 +73,8 @@ const resolvers: Resolvers = {
 
 }
 
+const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
+
 const handler = startServerAndCreateNextHandler(
     new ApolloServer({
         resolvers,
@@ -84,13 +95,15 @@ const handler = startServerAndCreateNextHandler(
                         }
                     },
                     async updatePost(post: Post) {
+                        console.log('running updatePost inside handler')
                         try {
-                            return await clientModel.find()
+                            const updatedPost = await clientModel.find(post)
+                            console.log('updatedPost: ', updatedPost);
+                            return updatedPost
                         } catch (error) {
                             throw new Error("Failed to update posts")
                         }
                     },
-
                     async createPost({ input }: any) {
                         try {
                             return await clientModel.create({ ...input })
