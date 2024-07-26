@@ -8,7 +8,7 @@ const config: CodegenConfig = {
     "./__generated__/resolversTypes.ts": {
       plugins: ["typescript", "typescript-resolvers", "typescript-mongodb", "typescript-document-nodes"],
       config: {
-        contextType: "../app/api/graphql/apolloHandler#MyContext",
+        contextType: "../app/api/graphql/apolloHandler#Context",
       }
     },
     "./__generated__/graphql.schema.json": {

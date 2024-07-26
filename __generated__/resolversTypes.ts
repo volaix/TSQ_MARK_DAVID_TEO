@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { MyContext } from '../app/api/graphql/apolloHandler';
+import { Context } from '../app/api/graphql/apolloHandler';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -28,11 +28,17 @@ export type ClientPost = {
 export type Mutation = {
   __typename?: 'Mutation';
   createClientPost?: Maybe<ClientPost>;
+  updateClientPosts?: Maybe<Array<Maybe<ClientPost>>>;
 };
 
 
 export type MutationCreateClientPostArgs = {
   input: NewClientPost;
+};
+
+
+export type MutationUpdateClientPostsArgs = {
+  input: Array<NewClientPost>;
 };
 
 export type NewClientPost = {
@@ -150,70 +156,71 @@ export type UnionDirectiveArgs = {
   additionalFields?: Maybe<Array<Maybe<AdditionalEntityFields>>>;
 };
 
-export type UnionDirectiveResolver<Result, Parent, ContextType = MyContext, Args = UnionDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type UnionDirectiveResolver<Result, Parent, ContextType = Context, Args = UnionDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type AbstractEntityDirectiveArgs = {
   discriminatorField: Scalars['String']['input'];
   additionalFields?: Maybe<Array<Maybe<AdditionalEntityFields>>>;
 };
 
-export type AbstractEntityDirectiveResolver<Result, Parent, ContextType = MyContext, Args = AbstractEntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AbstractEntityDirectiveResolver<Result, Parent, ContextType = Context, Args = AbstractEntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type EntityDirectiveArgs = {
   embedded?: Maybe<Scalars['Boolean']['input']>;
   additionalFields?: Maybe<Array<Maybe<AdditionalEntityFields>>>;
 };
 
-export type EntityDirectiveResolver<Result, Parent, ContextType = MyContext, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EntityDirectiveResolver<Result, Parent, ContextType = Context, Args = EntityDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type ColumnDirectiveArgs = {
   overrideType?: Maybe<Scalars['String']['input']>;
 };
 
-export type ColumnDirectiveResolver<Result, Parent, ContextType = MyContext, Args = ColumnDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type ColumnDirectiveResolver<Result, Parent, ContextType = Context, Args = ColumnDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type IdDirectiveArgs = { };
 
-export type IdDirectiveResolver<Result, Parent, ContextType = MyContext, Args = IdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type IdDirectiveResolver<Result, Parent, ContextType = Context, Args = IdDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type LinkDirectiveArgs = {
   overrideType?: Maybe<Scalars['String']['input']>;
 };
 
-export type LinkDirectiveResolver<Result, Parent, ContextType = MyContext, Args = LinkDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type LinkDirectiveResolver<Result, Parent, ContextType = Context, Args = LinkDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type EmbeddedDirectiveArgs = { };
 
-export type EmbeddedDirectiveResolver<Result, Parent, ContextType = MyContext, Args = EmbeddedDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type EmbeddedDirectiveResolver<Result, Parent, ContextType = Context, Args = EmbeddedDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type MapDirectiveArgs = {
   path: Scalars['String']['input'];
 };
 
-export type MapDirectiveResolver<Result, Parent, ContextType = MyContext, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type MapDirectiveResolver<Result, Parent, ContextType = Context, Args = MapDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type ClientPostResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['ClientPost'] = ResolversParentTypes['ClientPost']> = {
+export type ClientPostResolvers<ContextType = Context, ParentType extends ResolversParentTypes['ClientPost'] = ResolversParentTypes['ClientPost']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationCreateClientPostArgs, 'input'>>;
+  updateClientPosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['ClientPost']>>>, ParentType, ContextType, RequireFields<MutationUpdateClientPostsArgs, 'input'>>;
 };
 
-export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   clientPosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['ClientPost']>>>, ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = MyContext> = {
+export type Resolvers<ContextType = Context> = {
   ClientPost?: ClientPostResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };
 
-export type DirectiveResolvers<ContextType = MyContext> = {
+export type DirectiveResolvers<ContextType = Context> = {
   union?: UnionDirectiveResolver<any, any, ContextType>;
   abstractEntity?: AbstractEntityDirectiveResolver<any, any, ContextType>;
   entity?: EntityDirectiveResolver<any, any, ContextType>;

@@ -18,6 +18,7 @@ const modelNames = {
  * Make new clientPost schema
  */
 const clientPostSchema = new Schema({
+    _id: { type: Schema.Types.ObjectId, auto: true },
     title: { type: String, required: [true, "All fields are required"] },
     order: {
         type: Number,
@@ -27,7 +28,9 @@ const clientPostSchema = new Schema({
 
 const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
-export interface MyContext {
+type Post = InferSchemaType<typeof clientPostSchema>
+
+export interface Context {
     dataSources: {
         clientPosts: {
             getAllPosts: () => any
@@ -38,7 +41,7 @@ export interface MyContext {
 
 const resolvers: Resolvers = {
     Query: {
-        clientPosts: async (_: any, __: any, context: MyContext) => {
+        clientPosts: async (_: any, __: any, context: Context) => {
             try {
                 return await context.dataSources.clientPosts.getAllPosts()
             } catch (error) {
@@ -47,12 +50,12 @@ const resolvers: Resolvers = {
         },
     },
     Mutation: {
-        createClientPost: async (_: any, { input }: any, context: any) => {
+        createClientPost: async (_: any, { input }: any, context: Context) => {
             try {
-                const newUser = await context.dataSources.clientPosts.createUser({
+                const newPost = await context.dataSources.clientPosts.createPost({
                     input,
                 })
-                return newUser
+                return newPost
             } catch (error) {
                 throw new Error("Failed to create user")
             }
@@ -74,9 +77,17 @@ const handler = startServerAndCreateNextHandler(
                 clientPosts: {
                     async getAllPosts() {
                         try {
-                            return await clientModel.find()
+                            const posts = await clientModel.find().sort({ order: 1 })
+                            return posts
                         } catch (error) {
                             throw new Error("Failed to fetch clientPosts")
+                        }
+                    },
+                    async updatePost(post: Post) {
+                        try {
+                            return await clientModel.find()
+                        } catch (error) {
+                            throw new Error("Failed to update posts")
                         }
                     },
 
