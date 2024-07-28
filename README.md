@@ -1,8 +1,8 @@
 # Full Stack App using React FE + GraphQL BE
 
-IMAGE
+![Jul-28-2024 21-01-37](https://github.com/user-attachments/assets/028d9246-37ff-47af-9707-f7273dde9c3b)
 
-Live at: 
+Live at: https://tsq-mark-david-teo-gzsd.vercel.app/
 
 Objective: Create a full-stack application that displays and allows reordering of posts,
 demonstrating proficiency in React, GraphQL, and database management.
@@ -15,10 +15,6 @@ demonstrating proficiency in React, GraphQL, and database management.
 ### Technologies
 
 React, Nextjs, Apollo, GraphQL, MongoDB, Mongoose, Material-UI (MUI), Vercel, node.js
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## License
 
