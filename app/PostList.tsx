@@ -10,9 +10,6 @@ type PostListProps = {
   data: GetPostsHomeQuery
   refetch: () => void
 }
-type SingleClientPost = NonNullable<
-  NonNullable<GetPostsHomeQuery["clientPosts"]>[number]
->
 type ClientPostsType = NonNullable<GetPostsHomeQuery["clientPosts"]>
 
 //-----------UTIL---------------------

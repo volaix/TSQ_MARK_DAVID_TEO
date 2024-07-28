@@ -52,7 +52,7 @@ export default function DraggablePost({
       className={`bg-white p-2 mb-2 rounded shadow cursor-move ${isDragging ? "opacity-50" : ""}`}
     >
       {post.title}
-      Order: {post.order}
+      {/* Order: {post.order} */}
     </div>
   )
 }
