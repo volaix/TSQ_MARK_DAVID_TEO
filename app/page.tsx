@@ -12,8 +12,8 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-6">
       <Container id="features" sx={{ py: { xs: 8, sm: 16 } }}>
-        <Grid container spacing={0}>
-          <Grid item xs={12} md={6}>
+        <Grid container spacing={0} justifyContent="center" alignItems="center">
+          <Grid item>
             {/* --------HEADER---------- */}
             <header>
               <Typography component="h2" variant="h4" color="text.primary">
