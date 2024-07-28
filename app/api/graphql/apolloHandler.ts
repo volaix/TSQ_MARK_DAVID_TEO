@@ -1,13 +1,12 @@
 
+import { ClientPost } from "@/__generated__/graphql"
 import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import { model, models } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
-import mainGraphQl from './schema.graphql'
 import resolvers from './resolvers'
+import mainGraphQl from './schema.graphql'
 import { clientPostSchema, modelNames } from './util'
-import { Document, Model } from 'mongoose'
-import { ClientPost } from "@/__generated__/graphql"
 
 
 const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
