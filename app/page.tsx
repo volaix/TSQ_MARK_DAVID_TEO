@@ -31,7 +31,6 @@ export default function Home() {
             {/* --------POST LIST------------ */}
             <Stack
               direction="column"
-              // alignItems="flex-start"
               spacing={2}
               useFlexGap
               sx={{

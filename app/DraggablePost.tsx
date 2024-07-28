@@ -87,7 +87,7 @@ export default function DraggablePost({
       >
         <Box
           sx={{
-            p: 2,
+            p: 3,
             display: 'flex',
             flexDirection: { xs: 'column', md: 'row' },
             alignItems: { md: 'center' },
