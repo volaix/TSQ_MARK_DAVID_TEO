@@ -31,22 +31,26 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
 
   //-----------FUNCTIONS-------------
   const updateMongoDb = React.useCallback(
-    async (toIndex: number, selectedPost: SingleClientPost) => {
-      const preIndex = posts[toIndex - 1]?.order ?? orderMin
-      const postIndex = posts[toIndex + 1]?.order ?? 100000
+    async (draggedIndex: number, droppedIndex: number) => {
+      const preIndex = posts[droppedIndex - 1]?.order ?? orderMin
+      console.log('preIndex: ', preIndex)
+      const postIndex = posts[droppedIndex]?.order ?? 100000
+      console.log('postIndex: ', postIndex)
       const order = Math.floor((preIndex + postIndex) / 2)
-      const variables = { id: selectedPost.id, order }
-      if (variables.id && variables.order) {
+      const id = posts[draggedIndex]?.id ?? ''
+      const variables = { id, order }
+      if (variables.id  &&  variables.order) {
         try {
           await updateClientPost({
             variables,
           })
+          await refetch()
         } catch (error) {
           console.error("Error updating post:", error)
         }
       }
     },
-    [posts, updateClientPost]
+    [posts, refetch, updateClientPost]
   )
 
   const movePost = React.useCallback(
@@ -65,7 +69,7 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
   //-----------RENDER--------
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="h-64 overflow-y-auto">
+      <div className="h-96 overflow-y-auto">
         {posts.map((post, index) => {
           if (post === null) return
 
@@ -73,8 +77,8 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
             key={post.id}
             post={post}
             index={index}
-            movePost={movePost}
-            onDropComplete={updateMongoDb}
+            updateLocal={movePost}
+            updateDb={updateMongoDb}
           />
         })}
       </div>

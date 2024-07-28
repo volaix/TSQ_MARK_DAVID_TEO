@@ -4,10 +4,10 @@ import PostList from './PostList'
 import { useGetPostsHomeQuery } from '../__generated__/graphql'
 
 export default function Home() {
-  const { loading, error, data: postListResponse, refetch } = useGetPostsHomeQuery({ fetchPolicy: 'no-cache'})
+  const { loading, error, data: postListResponse, refetch } = useGetPostsHomeQuery({ fetchPolicy: 'network-only'})
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-6">
       <section>
         <h1>list of all posts</h1>
         {error && <p>Error : {error.message}</p>}

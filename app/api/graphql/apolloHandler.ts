@@ -39,7 +39,6 @@ const handler = startServerAndCreateNextHandler(
                         }
                     },
                     async updatePostOrder(postId: string, order: number) {
-                        console.log('running updatePost inside handler')
                         try {
                             const updatedPost = await clientModel.findByIdAndUpdate(
                                 postId,
