@@ -22,7 +22,9 @@ const orderMin = 10000
 const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
   //-----------STATE-------------
   const [posts, setPosts] = useState<ClientPostsType>(data.clientPosts || [])
-  const [updateClientPost] = useUpdateClientPostMutation()
+  const [updateClientPost] = useUpdateClientPostMutation({
+    refetchQueries: ["getPostsHome"],
+  })
 
   //-----------HOOKS-------------
   useEffect(() => {
@@ -33,9 +35,7 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
   const updateMongoDb = React.useCallback(
     async (draggedIndex: number, droppedIndex: number) => {
       const preIndex = posts[droppedIndex - 1]?.order ?? orderMin
-      console.log('preIndex: ', preIndex)
       const postIndex = posts[droppedIndex]?.order ?? 100000
-      console.log('postIndex: ', postIndex)
       const order = Math.floor((preIndex + postIndex) / 2)
       const id = posts[draggedIndex]?.id ?? ''
       const variables = { id, order }
@@ -44,13 +44,13 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
           await updateClientPost({
             variables,
           })
-          await refetch()
+          // await refetch()
         } catch (error) {
           console.error("Error updating post:", error)
         }
       }
     },
-    [posts, refetch, updateClientPost]
+    [posts, updateClientPost]
   )
 
   const movePost = React.useCallback(
