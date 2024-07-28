@@ -51,11 +51,6 @@ export type Query = {
   clientPosts?: Maybe<Array<Maybe<ClientPost>>>;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  postUpdated?: Maybe<ClientPost>;
-};
-
 export type GetPostsHomeQueryVariables = Exact<{ [key: string]: never; }>;
 
 

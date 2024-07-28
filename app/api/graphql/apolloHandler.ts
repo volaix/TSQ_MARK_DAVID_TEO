@@ -6,15 +6,18 @@ import { NextApiRequest, NextApiResponse } from "next"
 import mainGraphQl from './schema.graphql'
 import resolvers from './resolvers'
 import { clientPostSchema, modelNames } from './util'
+import { Document, Model } from 'mongoose'
+import { ClientPost } from "@/__generated__/graphql"
+
 
 const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
 export interface Context {
     dataSources: {
         clientPosts: {
-            getAllPosts: () => any
-            createPost: ({ input }: any) => any
-            updatePostOrder: (postId: string, order: number) => any
+            getAllPosts(): Promise<ClientPost[]>
+            updatePostOrder(postId: string, order: number): Promise<ClientPost | null>
+            createPost({ input }: { input: Partial<ClientPost> }): Promise<ClientPost>
         }
     }
 }
