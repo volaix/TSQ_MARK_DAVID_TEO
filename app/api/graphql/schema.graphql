@@ -1,4 +1,3 @@
-
 #-----------INPUTS------------
 input NewClientPost {
   title: String!
@@ -19,4 +18,5 @@ type Query {
 type Mutation {
   createClientPost(input: NewClientPost!): ClientPost
   updateClientPost(id: ID!, order: Int!): ClientPost
+  makeMockData: [ClientPost]
 }

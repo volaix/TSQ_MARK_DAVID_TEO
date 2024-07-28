@@ -27,6 +27,7 @@ export type ClientPost = {
 export type Mutation = {
   __typename?: 'Mutation';
   createClientPost?: Maybe<ClientPost>;
+  makeMockData?: Maybe<Array<Maybe<ClientPost>>>;
   updateClientPost?: Maybe<ClientPost>;
 };
 

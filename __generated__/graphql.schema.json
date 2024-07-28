@@ -137,6 +137,22 @@
             "deprecationReason": null
           },
           {
+            "name": "makeMockData",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "ClientPost",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "updateClientPost",
             "description": null,
             "args": [

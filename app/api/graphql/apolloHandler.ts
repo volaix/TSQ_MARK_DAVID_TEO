@@ -7,6 +7,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import resolvers from './resolvers'
 import mainGraphQl from './schema.graphql'
 import { clientPostSchema, modelNames } from './util'
+import { mockDataArray } from "@/__generated__/mockData"
 
 
 const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
@@ -17,6 +18,7 @@ export interface Context {
             getAllPosts(): Promise<ClientPost[]>
             updatePostOrder(postId: string, order: number): Promise<ClientPost | null>
             createPost({ input }: { input: Partial<ClientPost> }): Promise<ClientPost>
+            mockData(): Promise<ClientPost[]>
         }
     }
 }
@@ -32,6 +34,16 @@ const handler = startServerAndCreateNextHandler(
             res,
             dataSources: {
                 clientPosts: {
+                    async mockData() {
+                        try {
+                            const posts = await Promise.all(
+                                mockDataArray.map(data => clientModel.create(data))
+                            )
+                            return posts
+                        } catch (error) {
+                            throw new Error("Failed to upload mock data")
+                        }
+                    },
                     async getAllPosts() {
                         try {
                             const posts = await clientModel.find().sort({ order: 1 })
@@ -52,7 +64,7 @@ const handler = startServerAndCreateNextHandler(
                             throw new Error("Failed to update posts")
                         }
                     },
-                    async createPost({ input }: any) {
+                    async createPost({ input }: { input: Partial<ClientPost> }) {
                         try {
                             return await clientModel.create({ ...input })
                         } catch (error) {
