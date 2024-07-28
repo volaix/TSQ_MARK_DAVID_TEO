@@ -46,12 +46,13 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
           await updateClientPost({
             variables,
           })
+          await refetch()
         } catch (error) {
           console.error("Error updating post:", error)
         }
       }
     },
-    [posts, updateClientPost]
+    [posts, refetch, updateClientPost]
   )
 
   const movePost = React.useCallback(
