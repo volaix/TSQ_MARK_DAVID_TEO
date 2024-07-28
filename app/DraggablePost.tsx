@@ -57,8 +57,6 @@ export default function DraggablePost({
       item.index = hoverIndex
     },
     drop(item: Item) {
-      console.log('CONFIRMED IS Dropped item:', item)
-      console.log('CONFIRMED now need drop to', item.index)
       updateDb(item.id, item.index)
     },
   })
