@@ -7,7 +7,7 @@ interface DraggablePostProps {
   post: SingleClientPost
   index: number
   updateLocal: (dragIndex: number, hoverIndex: number) => void
-  updateDb: (draggedIndex: number, droppedIndex: number) => void
+  updateDb: (draggedId: string, droppedToIndex: number) => void
   selectedItemIndex: number | null
   handleItemClick?: (index: number) => void
 }
@@ -15,6 +15,11 @@ interface DraggablePostProps {
 type SingleClientPost = NonNullable<
   NonNullable<GetPostsHomeQuery["clientPosts"]>[number]
 >
+
+type Item = {
+  index: number
+  id: string
+}
 
 export default function DraggablePost({
   post,
@@ -24,12 +29,14 @@ export default function DraggablePost({
   selectedItemIndex,
   handleItemClick
 }: DraggablePostProps) {
-  const ref = React.useRef<HTMLDivElement>(null)
-  const theme = useTheme()
 
+  //-------------REFS----------------
+  const ref = React.useRef<HTMLDivElement>(null)
+
+  //-------------HOOKS---------------
   const [{ isDragging }, drag] = useDrag({
     type: "post",
-    item: { id: post.id, index },
+    item: { id: post.id, index }, //make your item here to reference in useDrop
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -37,7 +44,7 @@ export default function DraggablePost({
 
   const [, drop] = useDrop({
     accept: "post",
-    hover(item: { index: number }, monitor) {
+    hover(item: Item, monitor) {
       if (!ref.current) {
         return
       }
@@ -49,13 +56,16 @@ export default function DraggablePost({
       updateLocal(dragIndex, hoverIndex)
       item.index = hoverIndex
     },
-    drop(item: { index: number }) {
-      updateDb(item.index, index)
+    drop(item: Item) {
+      console.log('CONFIRMED IS Dropped item:', item)
+      console.log('CONFIRMED now need drop to', item.index)
+      updateDb(item.id, item.index)
     },
   })
 
   drag(drop(ref))
 
+  //-------------RENDER-------------------
   return (
     <Card
       ref={ref}

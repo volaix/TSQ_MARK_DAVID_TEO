@@ -3,7 +3,7 @@
 
 import client from "./_apollo/apolloClient"
 import { ApolloProvider } from "@apollo/client"
-import CssBaseline from '@mui/material/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline'
 
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import getLPTheme from "./getLPTheme"
@@ -15,14 +15,10 @@ export default function Providers({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const [mode, setMode] = useState<PaletteMode>('light')
-  const [showCustomTheme, setShowCustomTheme] = useState(true)
-
-  const LPtheme = createTheme(getLPTheme(mode))
-  const defaultTheme = createTheme({ palette: { mode } })
+  const LPtheme = createTheme(getLPTheme('light'))
 
   return (
-    <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
+    <ThemeProvider theme={LPtheme}>
       <CssBaseline />
       <ApolloProvider client={client} > {children} </ApolloProvider>
     </ThemeProvider>

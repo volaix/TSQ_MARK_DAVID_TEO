@@ -36,19 +36,16 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
   }
 
   const updateMongoDb = React.useCallback(
-    async (draggedIndex: number, droppedIndex: number) => {
-      console.log(`Dragged index: ${draggedIndex}, Dropped index: ${droppedIndex}`);
-      const preIndex = posts[droppedIndex - 1]?.order ?? orderMin
-      const postIndex = posts[droppedIndex]?.order ?? 100000
+    async (draggedId: string, droppedToIndex: number) => {
+      const preIndex = posts[droppedToIndex - 1]?.order ?? orderMin
+      const postIndex = posts[droppedToIndex + 1]?.order ?? 100000
       const order = Math.floor((preIndex + postIndex) / 2)
-      const id = posts[draggedIndex]?.id ?? ''
-      const variables = { id, order }
+      const variables = { id: draggedId, order }
       if (variables.id && variables.order) {
         try {
           await updateClientPost({
             variables,
           })
-          // await refetch()
         } catch (error) {
           console.error("Error updating post:", error)
         }
@@ -74,19 +71,19 @@ const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
   return (
     <DndProvider backend={HTML5Backend}>
       {/* <div className="h-96 overflow-y-auto"> */}
-        {posts.map((post, index) => {
-          if (post === null) return
+      {posts.map((post, index) => {
+        if (post === null) return
 
-          return <DraggablePost
-            selectedItemIndex={selectedItemIndex}
-            key={post.id}
-            post={post}
-            index={index}
-            updateLocal={movePost}
-            updateDb={updateMongoDb}
-            handleItemClick={handleItemClick}
-          />
-        })}
+        return <DraggablePost
+          selectedItemIndex={selectedItemIndex}
+          key={post.id}
+          post={post}
+          index={index}
+          updateLocal={movePost}
+          updateDb={updateMongoDb}
+          handleItemClick={handleItemClick}
+        />
+      })}
       {/* </div> */}
     </DndProvider>
   )
