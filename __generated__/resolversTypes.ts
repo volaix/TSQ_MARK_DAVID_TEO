@@ -28,6 +28,7 @@ export type ClientPost = {
 export type Mutation = {
   __typename?: 'Mutation';
   createClientPost?: Maybe<ClientPost>;
+  makeMockData?: Maybe<Array<Maybe<ClientPost>>>;
   updateClientPost?: Maybe<ClientPost>;
 };
 
@@ -208,6 +209,7 @@ export type ClientPostResolvers<ContextType = Context, ParentType extends Resolv
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationCreateClientPostArgs, 'input'>>;
+  makeMockData?: Resolver<Maybe<Array<Maybe<ResolversTypes['ClientPost']>>>, ParentType, ContextType>;
   updateClientPost?: Resolver<Maybe<ResolversTypes['ClientPost']>, ParentType, ContextType, RequireFields<MutationUpdateClientPostArgs, 'id' | 'order'>>;
 };
 
