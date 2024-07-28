@@ -1,0 +1,25 @@
+#----------QUERIES-------------
+query getPostsHome {
+  clientPosts {
+    id
+    title
+    order
+  }
+}
+
+#--------SUBSCRIPTIONS------------
+# subscription getPostsSubscription {
+#   clientPosts {
+#     id
+#     title
+#     order
+#   }
+# }
+
+#------------MUTATIONS------------
+mutation UpdateClientPost($id: ID!, $order: Int!) {
+  updateClientPost(id: $id, order: $order) {
+    id
+    order
+  }
+}

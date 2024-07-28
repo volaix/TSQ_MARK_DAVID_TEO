@@ -1,19 +1,25 @@
 import React from "react"
 import { useDrag, useDrop } from "react-dnd"
 import { Post } from "./api/graphql/util"
+import { GetPostsHomeQuery } from "@/__generated__/graphql"
 
+//------------------TYPES-------------------
 interface DraggablePostProps {
-  post: Post
+  post: SingleClientPost
   index: number
   movePost: (dragIndex: number, hoverIndex: number) => void
-  onDropComplete: (fromIndex: number, selected: Post) => void
+  onDropComplete: (fromIndex: number, selected: SingleClientPost) => void
 }
+type SingleClientPost = NonNullable<
+  NonNullable<GetPostsHomeQuery["clientPosts"]>[number]
+>
 
+//-----------------COMPONENT-----------------
 export default function DraggablePost({
   post,
   index,
   movePost,
-  onDropComplete, 
+  onDropComplete,
 }: DraggablePostProps) {
   const ref = React.useRef<HTMLDivElement>(null)
 

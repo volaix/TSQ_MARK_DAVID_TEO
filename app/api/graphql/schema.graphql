@@ -1,10 +1,13 @@
-type ClientPost {
-  id: ID!
+
+#-----------INPUTS------------
+input NewClientPost {
   title: String!
   order: Int!
 }
 
-input NewClientPost {
+#----------TYPES-------------
+type ClientPost {
+  id: ID!
   title: String!
   order: Int!
 }

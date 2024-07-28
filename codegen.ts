@@ -3,7 +3,8 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "./app/api/graphql/_schemas/main.graphql",
+  schema: "./app/api/graphql/schema.graphql",
+  documents: ["./app/_graphql/**/*.graphql"],
   generates: {
     "./__generated__/resolversTypes.ts": {
       plugins: ["typescript", "typescript-resolvers", "typescript-mongodb", "typescript-document-nodes"],
@@ -13,6 +14,9 @@ const config: CodegenConfig = {
     },
     "./__generated__/graphql.schema.json": {
       plugins: ["introspection"]
+    },
+    "./__generated__/graphql.ts": {
+      plugins: ["typescript", "typescript-operations", "typescript-react-apollo"],
     }
   }
 };

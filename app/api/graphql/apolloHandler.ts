@@ -3,7 +3,7 @@ import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import { model, models } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
-import mainGraphQl from './_schemas/main.graphql'
+import mainGraphQl from './schema.graphql'
 import resolvers from './resolvers'
 import { clientPostSchema, modelNames } from './util'
 

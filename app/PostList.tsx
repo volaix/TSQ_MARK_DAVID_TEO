@@ -1,30 +1,28 @@
 "use client"
+import { GetPostsHomeQuery, useUpdateClientPostMutation } from "@/__generated__/graphql"
 import React, { useEffect, useState } from "react"
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import DraggablePost from "./DraggablePost"
-import { gql, useMutation, useQuery } from "@apollo/client"
-import { Post } from "./api/graphql/util"
 
-interface PostListProps {
-  data: {
-    clientPosts?: Post[]
-  }
+//--------------TYPES-------------------
+type PostListProps = {
+  data: GetPostsHomeQuery
   refetch: () => void
 }
+type SingleClientPost = NonNullable<
+  NonNullable<GetPostsHomeQuery["clientPosts"]>[number]
+>
+type ClientPostsType = NonNullable<GetPostsHomeQuery["clientPosts"]>
 
+//-----------UTIL---------------------
 const orderMin = 10000
-const PostList: React.FC<PostListProps> = ({ data , refetch}) => {
+
+//---------------------COMPONENT-----------------
+const PostList: React.FC<PostListProps> = ({ data, refetch }) => {
   //-----------STATE-------------
-  const [posts, setPosts] = useState<Post[]>(data?.clientPosts || [])
-  const [updateClientPost] = useMutation(gql`
-  mutation UpdateClientPost($id: ID!, $order: Int!) {
-    updateClientPost(id: $id, order: $order) {
-      id
-      order
-    }
-  }
-`)
+  const [posts, setPosts] = useState<ClientPostsType>(data.clientPosts || [])
+  const [updateClientPost] = useUpdateClientPostMutation()
 
   //-----------HOOKS-------------
   useEffect(() => {
@@ -33,7 +31,7 @@ const PostList: React.FC<PostListProps> = ({ data , refetch}) => {
 
   //-----------FUNCTIONS-------------
   const updateMongoDb = React.useCallback(
-    async (toIndex: number, selectedPost: Post) => {
+    async (toIndex: number, selectedPost: SingleClientPost) => {
       const preIndex = posts[toIndex - 1]?.order ?? orderMin
       const postIndex = posts[toIndex + 1]?.order ?? 100000
       const order = Math.floor((preIndex + postIndex) / 2)
@@ -41,15 +39,14 @@ const PostList: React.FC<PostListProps> = ({ data , refetch}) => {
       if (variables.id && variables.order) {
         try {
           await updateClientPost({
-            variables
+            variables,
           })
-          await refetch()
         } catch (error) {
           console.error("Error updating post:", error)
         }
       }
     },
-    [posts, refetch, updateClientPost]
+    [posts, updateClientPost]
   )
 
   const movePost = React.useCallback(
@@ -69,15 +66,17 @@ const PostList: React.FC<PostListProps> = ({ data , refetch}) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="h-64 overflow-y-auto">
-        {posts.map((post, index) => (
-          <DraggablePost
+        {posts.map((post, index) => {
+          if (post === null) return
+
+          return <DraggablePost
             key={post.id}
             post={post}
             index={index}
             movePost={movePost}
             onDropComplete={updateMongoDb}
           />
-        ))}
+        })}
       </div>
     </DndProvider>
   )

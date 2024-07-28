@@ -52,6 +52,11 @@ export type Query = {
   clientPosts?: Maybe<Array<Maybe<ClientPost>>>;
 };
 
+export type Subscription = {
+  __typename?: 'Subscription';
+  postUpdated?: Maybe<ClientPost>;
+};
+
 export type AdditionalEntityFields = {
   path?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
@@ -135,6 +140,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   NewClientPost: NewClientPost;
   Query: ResolverTypeWrapper<{}>;
+  Subscription: ResolverTypeWrapper<{}>;
   AdditionalEntityFields: AdditionalEntityFields;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
 };
@@ -148,6 +154,7 @@ export type ResolversParentTypes = {
   Mutation: {};
   NewClientPost: NewClientPost;
   Query: {};
+  Subscription: {};
   AdditionalEntityFields: AdditionalEntityFields;
   Boolean: Scalars['Boolean']['output'];
 };
@@ -215,10 +222,15 @@ export type QueryResolvers<ContextType = Context, ParentType extends ResolversPa
   clientPosts?: Resolver<Maybe<Array<Maybe<ResolversTypes['ClientPost']>>>, ParentType, ContextType>;
 };
 
+export type SubscriptionResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  postUpdated?: SubscriptionResolver<Maybe<ResolversTypes['ClientPost']>, "postUpdated", ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = Context> = {
   ClientPost?: ClientPostResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Subscription?: SubscriptionResolvers<ContextType>;
 };
 
 export type DirectiveResolvers<ContextType = Context> = {
@@ -233,3 +245,21 @@ export type DirectiveResolvers<ContextType = Context> = {
 };
 
 import { ObjectId } from 'mongodb';
+
+export const GetPostsHome = gql`
+    query getPostsHome {
+  clientPosts {
+    id
+    title
+    order
+  }
+}
+    `;
+export const UpdateClientPost = gql`
+    mutation UpdateClientPost($id: ID!, $order: Int!) {
+  updateClientPost(id: $id, order: $order) {
+    id
+    order
+  }
+}
+    `;
