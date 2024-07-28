@@ -45,7 +45,6 @@ const handler = startServerAndCreateNextHandler(
                                 { order },
                                 { new: true }
                             )
-                            console.log('updatedPost: ', updatedPost)
                             return updatedPost
                         } catch (error) {
                             throw new Error("Failed to update posts")
