@@ -21,7 +21,7 @@ export default function Home() {
       {loading && <p>Loading Posts...</p>}
       <h1>list of all posts</h1>
       <section>
-        <PostList data={postListResponse} />
+        <PostList data={postListResponse} refetch={refetch} />
       </section>
     </main>
   )

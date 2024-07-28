@@ -2,7 +2,7 @@
 import { NewClientPost, Resolvers } from '@/__generated__/resolversTypes'
 import { Context } from './apolloHandler'
 
- const resolvers: Resolvers = {
+const resolvers: Resolvers = {
     Query: {
         clientPosts: async (_: unknown, __: unknown, context: Context) => {
             try {

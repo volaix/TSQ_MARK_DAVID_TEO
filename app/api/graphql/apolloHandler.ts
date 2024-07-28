@@ -1,12 +1,11 @@
 
-import { ClientPost, NewClientPost, Resolvers } from '@/__generated__/resolversTypes'
 import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
-import { InferSchemaType, model, models, Schema } from "mongoose"
+import { model, models } from "mongoose"
 import { NextApiRequest, NextApiResponse } from "next"
 import mainGraphQl from './_schemas/main.graphql'
-import { clientPostSchema, modelNames, Post } from './util'
 import resolvers from './resolvers'
+import { clientPostSchema, modelNames } from './util'
 
 const clientModel = models[modelNames.clientPost] || model(modelNames.clientPost, clientPostSchema)
 
@@ -42,7 +41,11 @@ const handler = startServerAndCreateNextHandler(
                     async updatePostOrder(postId: string, order: number) {
                         console.log('running updatePost inside handler')
                         try {
-                            const updatedPost = await clientModel.find()
+                            const updatedPost = await clientModel.findByIdAndUpdate(
+                                postId,
+                                { order },
+                                { new: true }
+                            )
                             console.log('updatedPost: ', updatedPost)
                             return updatedPost
                         } catch (error) {
